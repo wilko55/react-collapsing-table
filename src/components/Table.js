@@ -82,7 +82,13 @@ export class Table extends Component {
         this.resizeTable();
     }
 
-    componentWillReceiveProps({ rows, currentPage, totalPages }){
+    componentWillReceiveProps(props){
+        console.log('new)')
+        const {
+            rows = [],
+            currentPage = 1,
+            totalPages = ((rows.length === 0) ? 1 : Math.ceil(rows.length / currentState.pagination.rowSize))
+        } = props
         this.setState(currentState => {
             return {
                 ...currentState,
@@ -93,8 +99,8 @@ export class Table extends Component {
                 }),
                 pagination: {
                     ...currentState.pagination,
-                    currentPage: currentPage || 1,
-                    totalPages: totalPages || ((rows.length === 0) ? 1 : Math.ceil(rows.length / currentState.pagination.rowSize))
+                    currentPage,
+                    totalPages
                 }
             }
         })
